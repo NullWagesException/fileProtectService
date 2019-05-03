@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>文件上传</title>
+    <link rel="stylesheet" type="text/css" href="ui/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="ui/themes/icon.css">
+    <script type="text/javascript" src="ui/jquery.min.js"></script>
+    <script type="text/javascript" src="ui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="ui/locale/easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript" src="ui/jquery.serializejson.min.js"></script>
+    <script type="text/javascript">
+        function savefile() {
+            var fileInput = $('#file').get(0).files[0];
+            if(fileInput){
+                var form = new FormData(document.getElementById("fileform"));
+                $.ajax({
+                    type:"post",
+                    url:"file/upload",
+                    data:form,
+                    //告诉jQuery不要去处理发送的数据
+                    processData:false,
+                    //告诉jQuery不要去设置Content-Type请求头,因为表单已经设置了multipart/form-data
+                    contentType:false,
+                    success:function(data) {
+                        $.messager.alert('提示',data.message,'info');
+                    }
+                });
+            }else{
+                $.messager.alert('提示',"请选择文件",'info');
+            }
+        }
+    </script>
+</head>
+<body>
+
+<form id="fileform" action="file/upload" method="post" enctype="multipart/form-data">
+    选择文件:<input id="file" type="file" name="file" /><br />
+    <br>文件等级：<select id="cc" class="easyui-combobox" name="filelevel" style="width:200px;">
+        <option value="3">低级</option>
+        <option value="2">中级</option>
+        <option value="1">高级</option>
+    </select>
+    <a id="btn" onclick="savefile()" class="easyui-linkbutton" data-options="iconCls:'icon-save'">提交</a>
+</form>
+
+</body>
+</html>

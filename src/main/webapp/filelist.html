@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>文档管理系统</title>
+<link rel="stylesheet" type="text/css" href="ui/themes/default/easyui.css">
+<link rel="stylesheet" type="text/css" href="ui/themes/icon.css">
+<script type="text/javascript" src="ui/jquery.min.js"></script>
+<script type="text/javascript" src="ui/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="ui/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src="ui/jquery.serializejson.min.js"></script>
+	<script type="text/javascript" src="ui/date.js"></script>
+<script type="text/javascript" src="js/crud.js"></script>
+<script type="text/javascript">
+	var name="file";
+	var columns=[[
+	  		    {field:'id',title:'文档编号',width:100},
+        		{field:'filename',title:'文档名称',width:100},
+	  		    {field:'username',title:'上传用户',width:100},
+				{field:'filelevel',title:'文档等级',width:100,formatter:function(value){
+                        if (value === 1) return "高级";
+                        if (value === 2) return "中级";
+                        if (value === 3) return "低级";}},
+        		{field:'date',title:'上传时间',width:150,formatter:function(value){
+                        return new Date(value).Format("yyyy-MM-dd hh:mm:ss");}},
+				{field:'-',title:'操作',width:100,align:'center',formatter: function(value,row,index){
+						return '<a href="javascript:void(0)" onclick="edit('+row.id + ')">查看</a>' +
+							'&nbsp;&nbsp;' +
+							'<a href="javascript:void(0)" onclick="del('+ row.id + ')">删除</a>'
+					}}
+    			]];
+
+</script>
+</head>
+<body>
+<table id="grid"></table>
+
+
+</body>
+</html>
