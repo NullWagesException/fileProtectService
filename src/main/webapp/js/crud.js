@@ -95,10 +95,72 @@ $(function() {
                 if (rtn.success){
                     window.location.href="word?filepath=" + rtn.filepath;
                 }else{
-                    $.messager.confirm('提示','您没有权限查看该文档，请申请提升用户等级',function(r){
-                    });
+                    $.messager.alert('提示','您没有权限查看该文档，请申请提升用户等级','info');
                 }
             }
         });
 
     }
+
+/**
+ * 同意
+ */
+function allow(uuid) {
+    //是否拥有权限
+    $.ajax({
+        url: name + '/checklevel?id=' + uuid,
+        dataType: 'json',
+        type: 'post',
+        success: function (rtn) {
+            if (rtn.success){
+                $.messager.confirm("确认", "确认要同意吗？", function (yes) {
+                    if (yes) {
+                        $.ajax({
+                            url: name + '/allow?id=' + uuid,
+                            dataType: 'json',
+                            type: 'post',
+                            success: function (rtn) {
+                                $.messager.alert("提示", rtn.message, 'info', function () {
+                                    //刷新表格数据
+                                    $('#grid').datagrid('reload');
+                                });
+                            }
+                        });
+                    }
+                });
+            }else{
+                $.messager.confirm('提示','您没有权限操作该用户，请申请提升用户等级',function(r){
+                });
+            }
+        }
+    });
+
+}
+
+/**
+ * 拒绝
+ */
+function notallow(uuid) {
+    //是否拥有权限
+    $.ajax({
+        url: name + '/checklevel?id=' + uuid,
+        dataType: 'json',
+        type: 'post',
+        success: function (rtn) {
+            if (rtn.success){
+                $.ajax({
+                    url: name + '/notallow?id=' + uuid,
+                    dataType: 'json',
+                    type: 'post',
+                    success: function () {
+                        $('#grid').datagrid('reload');
+                    }
+                });
+            }else{
+                $.messager.confirm('提示','您没有权限操作该用户，请申请提升用户等级',function(r){
+                });
+            }
+        }
+    });
+
+}

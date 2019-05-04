@@ -18,6 +18,10 @@
         select * from `user` where username=#{username}
     </select>
 
+    <select id="getID" parameterType="com.zf.pojo.User" resultType="com.zf.pojo.User">
+        select * from `user` where id=#{id}
+    </select>
+
     <!--添加-->
     <insert id="insert" parameterType="com.zf.pojo.User">
         insert into `user` (`username`,`password`,`level`) values (#{username},#{password},#{level})

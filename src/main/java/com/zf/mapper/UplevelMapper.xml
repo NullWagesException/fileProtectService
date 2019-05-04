@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zf.mapper.UplevelMapper">
+
+
+    <select id="get" parameterType="com.zf.pojo.Uplevel" resultType="com.zf.pojo.Uplevel">
+        select * from `uplevel` where id=#{id}
+    </select>
+
+    <select id="getAll" resultType="com.zf.pojo.Uplevel">
+        select * from `uplevel` where allow=0
+    </select>
+
+
+    <!--添加-->
+    <insert id="insert" parameterType="com.zf.pojo.Uplevel">
+        insert into `uplevel` (`username`,`date`,`userid`,`oldlevel`,`newlevel`,`allow`) values (#{username},#{date},#{userid},#{oldlevel},#{newlevel},#{allow})
+    </insert>
+
+    <!--删除-->
+    <delete id="delete" parameterType="int">
+        delete from `uplevel` where id=#{id}
+    </delete>
+
+    <!--更新-->
+    <update id="update" parameterType="com.zf.pojo.Uplevel">
+        update `uplevel` set
+                          username=#{username},
+                          date=#{date},
+                          userid=#{userid},
+                          allow=#{allow},
+                          newlevel=#{newlevel},
+                          oldlevel=#{oldlevel} where id=#{id}
+    </update>
+
+</mapper>

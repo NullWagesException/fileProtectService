@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>文档管理系统</title>
+<link rel="stylesheet" type="text/css" href="ui/themes/default/easyui.css">
+<link rel="stylesheet" type="text/css" href="ui/themes/icon.css">
+<script type="text/javascript" src="ui/jquery.min.js"></script>
+<script type="text/javascript" src="ui/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="ui/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src="ui/jquery.serializejson.min.js"></script>
+	<script type="text/javascript" src="ui/date.js"></script>
+<script type="text/javascript" src="js/crud.js"></script>
+<script type="text/javascript">
+	var name="uplevel";
+	var columns=[[
+	  		    {field:'id',title:'编号',width:100},
+	  		    {field:'username',title:'申请用户',width:100},
+				{field:'oldlevel',title:'当前等级',width:100,formatter:function(value){
+                        if (value === 1) return "高级";
+                        if (value === 2) return "中级";
+                        if (value === 3) return "低级";}},
+				{field:'newlevel',title:'申请等级',width:100,formatter:function(value){
+						if (value === 1) return "高级";
+						if (value === 2) return "中级";
+						if (value === 3) return "低级";}},
+        		{field:'date',title:'提交时间',width:150,formatter:function(value){
+                        return new Date(value).Format("yyyy-MM-dd hh:mm:ss");}},
+				{field:'-',title:'操作',width:100,align:'center',formatter: function(value,row,index){
+						return '<a href="javascript:void(0)" onclick="allow('+row.id + ')">同意</a>' +
+							'&nbsp;&nbsp;' +
+							'<a href="javascript:void(0)" onclick="notallow('+ row.id + ')">拒绝</a>'
+					}}
+    			]];
+
+</script>
+</head>
+<body>
+<table id="grid"></table>
+
+
+</body>
+</html>

@@ -8,6 +8,8 @@ public interface UserMapper {
 
     User get(User user);
 
+    User getID(User user);
+
     List<User> getAll();
 
     User check(User user);

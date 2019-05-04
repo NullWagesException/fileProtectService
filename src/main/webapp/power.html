@@ -3,8 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="ui/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="ui/themes/icon.css">
+    <script type="text/javascript" src="ui/jquery.min.js"></script>
+    <script type="text/javascript" src="ui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="ui/locale/easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript" src="ui/jquery.serializejson.min.js"></script>
+    <script type="text/javascript">
+        $.ajax({
+            url: 'showlevel',
+            type: 'post',
+            success:function(rtn){
+                $('#powertext').html(rtn);
+            }
+        });
+        function savefile() {
+            var formdata = $('#fileform').serializeJSON();
+            //提交登陆验证
+            $.ajax({
+                url: 'uplevel/uplevel',
+                data:formdata,
+                dataType: 'json',
+                type: 'post',
+                success:function(rtn){
+                    if (rtn) $.messager.alert('提示',"提交成功！请耐心等待审核",'info');
+                    else $.messager.alert('提示',"提交失败",'info');
+                }
+            });
+        }
+    </script>
 </head>
 <body>
-<h1>权限</h1>
+您当前的权限为：<span id="powertext"></span>
+<br>
+<form id="fileform" action="uplevel" method="post">
+    权限申请：<select id="cc" class="easyui-combobox" name="filelevel" style="width:200px;">
+    <option value="3">低级</option>
+    <option value="2">中级</option>
+    <option value="1">高级</option>
+</select>
+    <a id="btn" onclick="savefile()" class="easyui-linkbutton" data-options="iconCls:'icon-save'">提交</a>
+</form>
 </body>
 </html>

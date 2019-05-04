@@ -21,6 +21,11 @@ public class UserService implements IUserService {
     }
 
     @Override
+    public User getID(User user) {
+        return userMapper.getID(user);
+    }
+
+    @Override
     public User check(User user) {
         return userMapper.check(user);
     }

@@ -37,6 +37,8 @@
 
     <bean id="fileService" class="com.zf.service.impl.FileService"/>
 
+    <bean id="uplevelService" class="com.zf.service.impl.UplevelService"/>
+
     <!--配置动态DAO并交由spring控制-->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>

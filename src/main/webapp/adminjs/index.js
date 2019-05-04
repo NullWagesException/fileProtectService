@@ -73,15 +73,14 @@ $(function(){
                                 "icon":"icon-sys","menuid":"100","menuname":"文档","menus":
                                     [
                                         {"icon":"icon-sys","menuid":"101","menuname":"文档管理","url":"filelist.html"},
-                                        {"icon":"icon-sys","menuid":"102","menuname":"文档上传","url":"fileload.html"}
+                                        {"icon":"icon-sys","menuid":"102","menuname":"文档上传","url":"fileupload.html"}
                                     ]
                             },
                             {
                                 "icon":"icon-sys","menuid":"100","menuname":"管理","menus":
                                     [
-                                        {"icon":"icon-sys","menuid":"101","menuname":"基本信息管理","url":"filelist.html"},
-                                        {"icon":"icon-sys","menuid":"101","menuname":"权限管理","url":"filelist.html"},
-                                        {"icon":"icon-sys","menuid":"101","menuname":"申请列表","url":"filelist.html"}
+                                        {"icon":"icon-sys","menuid":"101","menuname":"权限管理","url":"power.html"},
+                                        {"icon":"icon-sys","menuid":"102","menuname":"申请列表","url":"uplevellist.html"}
                                     ]
                             }
                         ]

@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Controller
-public class PageOffice {
+public class PageOfficeC {
 
     private Integer filelevel;
 
@@ -50,7 +50,7 @@ public class PageOffice {
     public void save(HttpServletRequest request, HttpServletResponse response){
 
         FileSaver fs=new FileSaver(request,response);
-        fs.saveToFile(request.getSession().getServletContext().getRealPath("doc/")+"/"+fs.getFileName());
+        fs.saveToFile("D://KDR//"+fs.getFileName());
         fs.close();
 
     }

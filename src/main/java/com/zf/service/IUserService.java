@@ -8,6 +8,8 @@ public interface IUserService {
 
     List<User> getAll();
 
+    User getID(User user);
+
     User check(User user);
 
     User get(User user);

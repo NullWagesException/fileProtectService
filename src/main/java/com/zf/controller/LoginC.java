@@ -54,38 +54,11 @@ public class LoginC {
         return map;
     }
 
-    @RequestMapping("showName")
-    @ResponseBody
-    public Object showName(User user,HttpSession session){
-        User loginUser = (User) session.getAttribute("loginUser");
-        Map<String,Object> map = new HashMap<>();
-        if (loginUser != null){
-            map.put("success",true);
-            map.put("message",loginUser.getUsername());
-        }else{
-            map.put("success",false);
-            map.put("message","登陆态失效，请重新登陆");
-        }
-        return map;
-    }
-
     @RequestMapping("toLoginOut")
     @ResponseBody
     public void toLoginOut(HttpSession session){
         session.setAttribute("loginUser",null);
     }
 
-    @RequestMapping("editpassword")
-    @ResponseBody
-    public Object editpassword(String newpass,HttpSession session){
-        User loginUser = (User) session.getAttribute("loginUser");
-        //如果不是登陆态
-        if (loginUser == null){
-            return "登陆态已失效，请重新登陆";
-        }
-        loginUser.setPassword(newpass);
-        userService.update(loginUser);
-        return newpass;
-    }
 
 }

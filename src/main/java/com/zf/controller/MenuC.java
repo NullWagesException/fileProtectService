@@ -11,7 +11,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("menu")
-public class Menu {
+public class MenuC {
 
     @RequestMapping("getMenuTrees")
     @ResponseBody
