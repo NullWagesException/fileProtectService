@@ -3,6 +3,7 @@ var method = "";
 var listParam = "";
 var saveParam = "";
 $(function() {
+    $('#win').window('close');  // close a window
     //加载表格数据
     $('#grid').datagrid({
         url: name + '/getAll' + listParam,
@@ -103,6 +104,126 @@ $(function() {
     }
 
 /**
+ * 更改文档等级
+ */
+function upfile(uuid) {
+    $('#fileid').val(uuid);
+    //是否拥有权限更改
+    $.ajax({
+        url: name + '/check?id=' + uuid,
+        dataType: 'json',
+        type: 'post',
+        success: function (rtn) {
+            if (rtn.success){
+                $('#win').window('open');  // open a window
+            }else{
+                $.messager.alert('提示','您没有权限进行该操作，请申请提升用户等级','info');
+            }
+        }
+    });
+
+}
+
+/**
+ * 更改用户等级
+ */
+function useredit(uuid) {
+    $('#userid').val(uuid);
+    //是否拥有权限更改
+    $.ajax({
+        url: 'checkuserlevel?id=' + uuid,
+        dataType: 'json',
+        type: 'post',
+        success: function (rtn) {
+            if (rtn.success){
+                $('#win').window('open');  // open a window
+            }else{
+                $.messager.alert('提示','您没有权限进行该操作，请申请提升用户等级','info');
+            }
+        }
+    });
+
+}
+
+/**
+ * 确认修改文件等级
+ */
+function upfilebtn() {
+    var formData = $('#fileform').serializeJSON();
+    $.ajax({
+        url:"file/upfile",
+        data: formData,
+        dataType: 'json',
+        type: 'post',
+        success:function(data) {
+            if (data){
+                    $.messager.alert('提示',"等级修改成功",'info',function () {
+                    $('#win').window('close');
+                    $('#grid').datagrid('reload');
+                });
+            }else{
+                $.messager.alert('提示',"等级修改失败",'info');
+            }
+        }
+    });
+}
+
+/**
+ * 确认修改用户
+ */
+function upuserbtn() {
+    var formData = $('#fileform').serializeJSON();
+    $.ajax({
+        url:"edituser",
+        data: formData,
+        dataType: 'json',
+        type: 'post',
+        success:function(data) {
+            if (data){
+                $.messager.alert('提示',"用户修改成功",'info',function () {
+                    $('#win').window('close');
+                    $('#grid').datagrid('reload');
+                });
+            }else{
+                $.messager.alert('提示',"用户修改失败",'info');
+            }
+        }
+    });
+}
+
+/**
+ * 删除用户
+ */
+function userdel(uuid) {
+    //是否拥有权限更改
+    $.ajax({
+        url: 'checkuserlevel?id=' + uuid,
+        dataType: 'json',
+        type: 'post',
+        success: function (rtn) {
+            if (rtn.success){
+                $.ajax({
+                    url: 'userdel?id=' + uuid,
+                    dataType: 'json',
+                    type: 'post',
+                    success: function (rtn) {
+                        if (rtn){
+                            $.messager.alert('提示',"用户删除成功",'info',function () {
+                                $('#grid').datagrid('reload');
+                            });
+                        }else{
+                            $.messager.alert('提示','用户删除失败','info');
+                        }
+                    }
+                });
+            }else{
+                $.messager.alert('提示','您没有权限进行该操作，请申请提升用户等级','info');
+            }
+        }
+    });
+}
+
+/**
  * 同意
  */
 function allow(uuid) {
@@ -136,6 +257,8 @@ function allow(uuid) {
     });
 
 }
+
+
 
 /**
  * 拒绝

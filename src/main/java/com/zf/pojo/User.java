@@ -9,6 +9,16 @@ public class User {
     //0=管理员 1=高级 2=中级 3=普通
     private Integer level = 3;
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", level=" + level +
+                '}';
+    }
+
     public Integer getLevel() {
         return level;
     }

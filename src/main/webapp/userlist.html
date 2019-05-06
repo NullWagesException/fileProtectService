@@ -12,22 +12,19 @@
 	<script type="text/javascript" src="ui/date.js"></script>
 <script type="text/javascript" src="js/crud.js"></script>
 <script type="text/javascript">
-	var name="file";
+	var name="user";
 	var columns=[[
-	  		    {field:'id',title:'文档编号',width:100},
-        		{field:'filename',title:'文档名称',width:100},
-	  		    {field:'username',title:'上传用户',width:100},
-				{field:'filelevel',title:'文档等级',width:100,formatter:function(value){
+	  		    {field:'id',title:'编号',width:100},
+        		{field:'username',title:'用户名称',width:100},
+				{field:'level',title:'用户等级',width:100,formatter:function(value){
+                        if (value === 0) return "管理员";
                         if (value === 1) return "高级";
                         if (value === 2) return "中级";
                         if (value === 3) return "低级";}},
-        		{field:'date',title:'上传时间',width:150,formatter:function(value){
-                        return new Date(value).Format("yyyy-MM-dd hh:mm:ss");}},
 				{field:'-',title:'操作',width:120,align:'center',formatter: function(value,row,index){
-						return '<a href="javascript:void(0)" onclick="edit('+row.id + ')">查看</a>' +
+						return '<a href="javascript:void(0)" onclick="useredit('+row.id + ')">修改</a>' +
 							'&nbsp;&nbsp;' +
-							'<a href="javascript:void(0)" onclick="del('+ row.id + ')">删除</a>'+
-                            '&nbsp;&nbsp;' + '<a href="javascript:void(0)" onclick="upfile('+row.id + ')">更改</a>'
+							'<a href="javascript:void(0)" onclick="userdel('+ row.id + ')">删除</a>'
 					}}
     			]];
 
@@ -35,18 +32,21 @@
 </head>
 <body>
 <table id="grid"></table>
-<div id="win" class="easyui-window" title="文档等级更改" style="width:400px;height:200px"
+<div id="win" class="easyui-window" title="编辑用户" style="width:400px;height:200px"
 	 data-options="iconCls:'icon-save',modal:true">
 	<br>
 	<br>
-	<form id="fileform" action="file/upfile" method="post">
-		<input type="text" id="fileid" hidden="hidden" name="id">
-		文件等级：<select id="cc" class="easyui-combobox" name="filelevel" style="width:200px;">
+	<form id="fileform" action="edituser" method="post" >
+		<input type="text" id="userid" hidden="hidden" name="id">
+		用户名称:&nbsp;&nbsp;<input type="text" id="username" name="username">
+		<br>
+		用户等级：<select id="cc" class="easyui-combobox" name="level" style="width:200px;">
 		<option value="3">低级</option>
 		<option value="2">中级</option>
 		<option value="1">高级</option>
 	</select>
-		<a id="btn" onclick="upfilebtn()" class="easyui-linkbutton" data-options="iconCls:'icon-save'">提交</a>
+		<br>
+		<a id="btn" onclick="upuserbtn()" class="easyui-linkbutton" data-options="iconCls:'icon-save'">提交</a>
 	</form>
 </div>
 

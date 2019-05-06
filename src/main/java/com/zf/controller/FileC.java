@@ -158,6 +158,7 @@ public class FileC {
         // 如果文件路径所对应的文件存在，并且是一个文件，则直接删除
         if (Dfile.exists() && Dfile.isFile()) {
             if (Dfile.delete()) {
+                fileService.delete(id);
                 map.put("success",false);
                 map.put("message","删除成功");
                 return map;
@@ -172,6 +173,23 @@ public class FileC {
             return map;
         }
 
+    }
+
+
+    @RequestMapping("upfile")
+    @ResponseBody
+    public Object upfile(Integer filelevel,Integer id){
+        try {
+            File file = new File();
+            file.setId(id);
+            file = fileService.get(file);
+            file.setFilelevel(filelevel);
+            fileService.update(file);
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
     }
 
 }

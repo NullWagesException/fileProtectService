@@ -79,6 +79,7 @@ $(function(){
                             {
                                 "icon":"icon-sys","menuid":"100","menuname":"管理","menus":
                                     [
+                                        {"icon":"icon-sys","menuid":"101","menuname":"用户管理","url":"userlist.html"},
                                         {"icon":"icon-sys","menuid":"101","menuname":"权限管理","url":"power.html"},
                                         {"icon":"icon-sys","menuid":"102","menuname":"申请列表","url":"uplevellist.html"}
                                     ]

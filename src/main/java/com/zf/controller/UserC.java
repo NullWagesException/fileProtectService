@@ -71,5 +71,72 @@ public class UserC {
         return map;
     }
 
+    @RequestMapping("user/getAll")
+    @ResponseBody
+    public Object getAll(HttpSession session){
+        List<User> userList = userService.getAll();
+        int index = -1;
+        User loginUser = (User) session.getAttribute("loginUser");
+        for (User user : userList) {
+            if (user.getId().equals(loginUser.getId())){
+                index++;
+            }
+            user.setPassword("");
+        }
+        userList.remove(index);
+        return userList;
+    }
+
+    @RequestMapping("edituser")
+    @ResponseBody
+    public Object edituser(User user){
+        try {
+            User olduser = userService.getID(user);
+            user.setPassword(olduser.getPassword());
+            userService.update(user);
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @RequestMapping("userdel")
+    @ResponseBody
+    public Object userdel(Integer id){
+        try {
+            userService.delete(id);
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @RequestMapping("checkuserlevel")
+    @ResponseBody
+    public Object checkuserlevel(HttpSession session,Integer id){
+        User user = new User();
+        user.setId(id);
+        user = userService.getID(user);
+        User loginUser = (User) session.getAttribute("loginUser");
+        Map<String,Object> map = new HashMap<>();
+        //如果不是登陆态
+        if (loginUser == null){
+            map.put("success",false);
+            map.put("message","登陆态已失效，请重新登陆");
+            return map;
+        }
+        //如果用户等级比文件等级低
+        if (loginUser.getLevel() > user.getLevel()){
+            map.put("success",false);
+            map.put("message","权限不足");
+            return map;
+        }
+        map.put("success",true);
+        return map;
+
+    }
+
 
 }
