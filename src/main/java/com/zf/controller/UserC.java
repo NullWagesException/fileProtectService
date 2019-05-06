@@ -75,13 +75,16 @@ public class UserC {
     @ResponseBody
     public Object getAll(HttpSession session){
         List<User> userList = userService.getAll();
-        int index = -1;
+        int index = 0;
         User loginUser = (User) session.getAttribute("loginUser");
         for (User user : userList) {
-            if (user.getId().equals(loginUser.getId())){
-                index++;
-            }
             user.setPassword("");
+        }
+        for (User user : userList) {
+            if (user.getId().equals(loginUser.getId())){
+                break;
+            }
+            index++;
         }
         userList.remove(index);
         return userList;
@@ -128,7 +131,7 @@ public class UserC {
             return map;
         }
         //如果用户等级比文件等级低
-        if (loginUser.getLevel() > user.getLevel()){
+        if (loginUser.getLevel()+1  > user.getLevel()){
             map.put("success",false);
             map.put("message","权限不足");
             return map;

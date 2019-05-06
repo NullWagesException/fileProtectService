@@ -65,7 +65,7 @@ public class UplevelC {
             return map;
         }
         //如果用户等级比文件等级低
-        if (loginUser.getLevel() > checkUser.getLevel()){
+        if (loginUser.getLevel()+1  > checkUser.getLevel()){
             map.put("success",false);
             map.put("message","权限不足");
             return map;
