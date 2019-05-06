@@ -2,6 +2,7 @@ package com.zf.controller;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.zf.myutils.SymmetricEncoder;
 import com.zf.pojo.File;
 import com.zf.pojo.User;
 import com.zf.service.IFileService;
@@ -49,7 +50,11 @@ public class FileC {
             byte[] bytes = new byte[1024];
             Date date = new Date();
             //加入时间戳，保证唯一性并加密文件名
-            String filepath = "D:\\KDR\\" + "___" + date.getTime() + "___" + file.getOriginalFilename();
+            //使用DES加密文件名
+            String filename = "___" + date.getTime() + "___" + file.getOriginalFilename();
+            filename = SymmetricEncoder.encrypt(filename);
+            String replace = filename.replace("/", "___");
+            String filepath ="D:/KDR/" +  replace + "." + file.getOriginalFilename().split("\\.")[1];
             outputStream = new FileOutputStream(filepath);
             int len = -1;
             while ((len = inputStream.read(bytes)) != -1) {
@@ -60,7 +65,7 @@ public class FileC {
             File filemessage = new File();
             filemessage.setDate(new Date());
             filemessage.setFilelevel(filelevel);
-            filemessage.setFilepath(filepath);
+            filemessage.setFilepath(replace);
 
             filemessage.setUsername(loginUser.getUsername());
             fileService.insert(filemessage);
@@ -89,7 +94,7 @@ public class FileC {
 
     @RequestMapping("getAll")
     @ResponseBody
-    public Object getAll(Integer page,Integer rows){
+    public Object getAll(Integer page,Integer rows) throws Exception {
 
         Map<String, Object> data = new HashMap<>();
         if (rows == null)
@@ -97,7 +102,9 @@ public class FileC {
         Page<Object> objects = PageHelper.startPage(page, rows);
         List<File> all = fileService.getAll();
         for (File file : all) {
-            file.setFilename(file.getFilepath().split("___")[2]);
+            String replace = file.getFilepath().replace("___", "/");
+            String decrypt = SymmetricEncoder.decrypt(replace);
+            file.setFilename(decrypt.split("___")[2]);
         }
         data.put("total", objects.getTotal());
         data.put("nowPage", page);
@@ -107,7 +114,7 @@ public class FileC {
 
     @RequestMapping("check")
     @ResponseBody
-    public Object check(HttpSession session,Integer id){
+    public Object check(HttpSession session,Integer id) throws Exception {
 
         User loginUser = (User) session.getAttribute("loginUser");
         File file = new File();
@@ -127,7 +134,9 @@ public class FileC {
             return map;
         }
         map.put("success",true);
-        map.put("filepath",file1.getFilepath().split("___")[1] + "___"+ file1.getFilepath().split("___")[2]);
+        String replace = file1.getFilepath().replace("___", "/");
+        String decrypt = SymmetricEncoder.decrypt(replace);
+        map.put("filepath","D:/KDR/" + decrypt.split("___")[1] + "___"+ file1.getFilepath().split("___")[2]);
         return map;
 
     }
@@ -154,7 +163,8 @@ public class FileC {
             return map;
         }
 
-        java.io.File Dfile = new java.io.File(file1.getFilepath());
+        String replace = file1.getFilepath().replace("___", "/");
+        java.io.File Dfile = new java.io.File("D:/KDR/" + replace);
         // 如果文件路径所对应的文件存在，并且是一个文件，则直接删除
         if (Dfile.exists() && Dfile.isFile()) {
             if (Dfile.delete()) {
