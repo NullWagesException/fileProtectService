@@ -162,8 +162,8 @@ public class FileC {
             return map;
         }
 
-        String replace = file1.getFilepath().replace("___", "/");
-        java.io.File Dfile = new java.io.File("D:/KDR/" + replace);
+        String path = file1.getFilepath().replace(" ", "+");
+        java.io.File Dfile = new java.io.File("D:/KDR/" + path);
         // 如果文件路径所对应的文件存在，并且是一个文件，则直接删除
         if (Dfile.exists() && Dfile.isFile()) {
             if (Dfile.delete()) {

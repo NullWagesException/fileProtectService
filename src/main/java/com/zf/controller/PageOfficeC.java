@@ -43,6 +43,7 @@ public class PageOfficeC {
         poCtrl.setSaveFilePage("save");
         //打开Word文档
         String replace = filepath.replace(" ", "+");
+        request.getSession().setAttribute("path",replace);
         poCtrl.webOpen("/dataResourceImages/" + replace, OpenModeType.docNormalEdit, loginUser.getUsername());
         return "/word.jsp";
     }
@@ -50,7 +51,8 @@ public class PageOfficeC {
     public void save(HttpServletRequest request, HttpServletResponse response){
 
         FileSaver fs=new FileSaver(request,response);
-        fs.saveToFile("D://KDR//"+fs.getFileName());
+        String path = (String) request.getSession().getAttribute("path");
+        fs.saveToFile("D://KDR//"+path);
         fs.close();
 
     }
