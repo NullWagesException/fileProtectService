@@ -42,10 +42,10 @@ public class PageOfficeC {
         //设置保存页面
         poCtrl.setSaveFilePage("save");
         //打开Word文档
-        poCtrl.webOpen("/dataResourceImages/___" + filepath, OpenModeType.docNormalEdit, loginUser.getUsername());
+        String replace = filepath.replace(" ", "+");
+        poCtrl.webOpen("/dataResourceImages/" + replace, OpenModeType.docNormalEdit, loginUser.getUsername());
         return "/word.jsp";
     }
-
     @RequestMapping("save")
     public void save(HttpServletRequest request, HttpServletResponse response){
 

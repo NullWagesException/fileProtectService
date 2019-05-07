@@ -65,7 +65,7 @@ public class FileC {
             File filemessage = new File();
             filemessage.setDate(new Date());
             filemessage.setFilelevel(filelevel);
-            filemessage.setFilepath(replace);
+            filemessage.setFilepath(replace+ "." + file.getOriginalFilename().split("\\.")[1]);
 
             filemessage.setUsername(loginUser.getUsername());
             fileService.insert(filemessage);
@@ -103,7 +103,8 @@ public class FileC {
         List<File> all = fileService.getAll();
         for (File file : all) {
             String replace = file.getFilepath().replace("___", "/");
-            String decrypt = SymmetricEncoder.decrypt(replace);
+            String str = replace.split("\\.")[0];
+            String decrypt = SymmetricEncoder.decrypt(str);
             file.setFilename(decrypt.split("___")[2]);
         }
         data.put("total", objects.getTotal());
@@ -134,9 +135,7 @@ public class FileC {
             return map;
         }
         map.put("success",true);
-        String replace = file1.getFilepath().replace("___", "/");
-        String decrypt = SymmetricEncoder.decrypt(replace);
-        map.put("filepath","D:/KDR/" + decrypt.split("___")[1] + "___"+ file1.getFilepath().split("___")[2]);
+        map.put("filepath",file1.getFilepath());
         return map;
 
     }
